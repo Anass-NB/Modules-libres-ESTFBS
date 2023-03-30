@@ -7,12 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login </title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-  <link rel="stylesheet" href="style.css">
+  <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 
 <body>
 <!-- Section: Design Block -->
-<section class="background-radial-gradient overflow-hidden">
+<section class="background-radial-gradient overflow-hidden" style="min-height: 100vh">
   <style>
     .background-radial-gradient {
       background-color: hsl(218, 41%, 15%);
@@ -103,24 +103,14 @@
               </button>
 
               <!-- Register buttons -->
-              <!-- <div class="text-center">
-                <p>or sign up with:</p>
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-facebook-f"></i>
-                </button>
+              <div class="text-center">
+                <p>Administrateur ?</p>
+                
+                  <a href="login_admin.php">Connexion</a>
+                
 
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-google"></i>
-                </button>
-
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-twitter"></i>
-                </button>
-
-                <button type="button" class="btn btn-link btn-floating mx-1">
-                  <i class="fab fa-github"></i>
-                </button>
-              </div> -->
+               
+              </div>
             </form>
           </div>
         </div>
