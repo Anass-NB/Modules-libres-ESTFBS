@@ -9,7 +9,10 @@
 </head>
 <body>
 <div class="container my-5">
-<form>
+<div class="row">
+  <div class="col-6">
+  <form>
+  <a href="index.php" class="btn btn-sm btn-success">back</a>
   <h1>Authentification</h1>
   <div class="mb-3">
     <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -22,6 +25,8 @@
 
   <button type="submit" class="btn btn-primary">Submit</button>
 </form>
+  </div>
+</div>
 </div>
 </body>
 </html>
