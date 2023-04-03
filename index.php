@@ -5,8 +5,7 @@ if (@$_SESSION['connect'] == true) {
   header('Location: myspace.php');
 }
 
-$query = $db_con->query("select * from etudiant");
-$data = $query->fetchAll();
+
 
 if (isset($_POST['login'])) {
   if ($_POST['date_naissance'] != null || $_POST['apogee'] != "") {
@@ -130,7 +129,7 @@ if (isset($_POST['login'])) {
                 <div class="text-center">
                   <p>Administrateur ?</p>
 
-                  <a href="login_admin.php">Connexion</a>
+                  <a href="login.php" class="btn btn-success">Connexion</a>
 
 
 

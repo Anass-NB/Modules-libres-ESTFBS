@@ -26,20 +26,21 @@ $carte_etudiant_type = $_FILES['carte_etudiant']['type'];
 $carte_etudiant_size = $_FILES['carte_etudiant']['size'];
 $carte_etudiant_tmp = $_FILES['carte_etudiant']['tmp_name'];
 
-
+$name_re;
+$name_ca;
 //if($pdf_type != 'application/pdf')
 //releve notes
 if ($releve_note_size > 1024 * 1024 * 4) {
   echo "Error: File size exceeds the limit of 4MB.";
   exit();
 } else {
-  $name = $_POST["etudiant_nom"] . "_" .  $_POST["etudiant_prenom"] . "_releve";
+  $name_re = $_POST["etudiant_nom"] . "_" .  $_POST["etudiant_prenom"] . "_releve";
   $upload_dir = "files_releve_carte/";
   echo "Size OK.";
 
-  if (move_uploaded_file($releve_note_tmp, $upload_dir . $name . "." . $releve_note_extension)) {
+  if (move_uploaded_file($releve_note_tmp, $upload_dir . $name_re . "." . $releve_note_extension)) {
     echo "releve de note uploaded successfully.<br>";
-    $releve_permissions = fileperms("files_releve_carte/" . $name . "." .  $releve_note_extension);
+    $releve_permissions = fileperms("files_releve_carte/" . $name_re . "." .  $releve_note_extension);
     echo "<h2>Permissions du relevé de notes : " . decoct($releve_permissions) . "<br></h2>";
   } else {
     echo "Error uploading image.<br>";
@@ -51,12 +52,12 @@ if ($carte_etudiant_size > 1024 * 1024 * 3) {
   echo "Error: File size exceeds the limit of 3MB.<br>";
   die();
 } else {
-  $name = $_POST["etudiant_nom"] . "_" .  $_POST["etudiant_prenom"] . "_carte";
+  $name_ca = $_POST["etudiant_nom"] . "_" .  $_POST["etudiant_prenom"] . "_carte";
   $upload_dir = "files_releve_carte/";
   echo "Size OK.<br>";
-  if (move_uploaded_file($carte_etudiant_tmp, $upload_dir . $name . "." . $carte_etudiant_extension)) {
+  if (move_uploaded_file($carte_etudiant_tmp, $upload_dir . $name_ca . "." . $carte_etudiant_extension)) {
     echo "carte etudiant uploaded successfully.";
-    $carte_permissions = fileperms("files_releve_carte/" . $name . "." .  $carte_etudiant_extension);
+    $carte_permissions = fileperms("files_releve_carte/" . $name_ca . "." .  $carte_etudiant_extension);
     echo "<h2>Permissions du Carte etudiant: " . decoct($carte_permissions) . "<br></h2>";
   } else {
     echo "Error uploading image.<br>";
@@ -65,8 +66,13 @@ if ($carte_etudiant_size > 1024 * 1024 * 3) {
 
 ?>
 
-<?php 
+<?php
+  //INsert into DATABASE
 
-  header('Location: deconnexion.php');
+  $sql = "INSERT INTO demande (id_etud , date_demande, modules_demandees,file_releve,file_carte,id_utilisateur ) VALUES (?,?,?,?,?,?)";
+  $query= $db_con->prepare($sql);
+  $query->execute([$_SESSION["user"]["id_etud"], date("Y-m-d"),$_SESSION["data"]["modules"], $name_re . "." . $releve_note_extension ,$name_ca . "." . $carte_etudiant_extension,0]);
+
+header('Location: deconnexion.php');
 
 ?>

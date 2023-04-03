@@ -3,6 +3,17 @@ session_start();
 ?>
 
 
+<?php 
+include "connexion.php";
+$sql = "SELECT * FROM `etudiant` ";
+$query = $db_con->prepare($sql);
+$query->execute();
+$row = $query->rowCount();
+$data = $query->fetchAll();
+$total_etudiants = count($data);
+?>
+
+
 
 
 <!DOCTYPE html>
@@ -65,35 +76,16 @@ session_start();
         <hr>
         <div class="row">
 
-          <div class="col-md-7">
+          <div class="col-md">
             <div class="well">
-              <div class="glyphicon glyphicon-user"></div> Total des etudiants <span class="badge pull-right">13</span>
+              <div class="glyphicon glyphicon-user"></div>   Nombre  total des étudiants  <span class="badge pull-right">
+                <?php echo $total_etudiants; ?>
+              </span>
             </div>
             <hr>
             <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4>Processing Status</h4>
-              </div>
-              <div class="panel-body">
-                <small>Complete</small>
-                <div class="progress">
-                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%">
-                    <span class="sr-only">72% Complete</span>
-                  </div>
-                </div>
-                <small>In Progress</small>
-                <div class="progress">
-                  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                    <span class="sr-only">20% Complete</span>
-                  </div>
-                </div>
-                <small>At Risk</small>
-                <div class="progress">
-                  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                    <span class="sr-only">80% Complete</span>
-                  </div>
-                </div>
-              </div>
+
+              <?php require "database/etudiants.php" ?>
             </div>
           </div>
 

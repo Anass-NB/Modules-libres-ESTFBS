@@ -20,10 +20,7 @@ foreach ($_GET as  $module) {
 
 
 
-$sql = "INSERT INTO demande (id_etud , date_demande, modules_demandees,file_releve,file_carte,id_utilisateur ) VALUES (?,?,?,?,?,?)";
-$query= $db_con->prepare($sql);
-$query->execute([$_SESSION["user"]["id_etud"], date("Y-m-d"), implode("-", $arr),"1.png","2.jpg",0]);
-
+$_SESSION["data"]["modules"] = implode("-", $arr); 
 
 
 
