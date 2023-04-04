@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ?>
 
 
@@ -56,9 +57,21 @@ session_start();
   <div class="container bootstrap snippets bootdey">
 
     <div class="row">
-      <?php
-      include "layout/sidebar.php";
-      ?>
+      <div class="col-md-3">
+
+        <a href="#"><strong><i class="glyphicon glyphicon-briefcase"></i> Toolbox</strong></a>
+        <hr>
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="etudiants.php"><i class="glyphicon glyphicon-user"></i> Étudiants</a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-list-alt"></i> Demandes des étudiants </a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-link"></i> Links</a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-book"></i> Books</a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-briefcase"></i> Tools</a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-time"></i> Real-time</a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-plus"></i> Advanced..</a></li>
+        </ul>
+        <hr>
+      </div>
       <div class="col-md-9">
 
         <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>

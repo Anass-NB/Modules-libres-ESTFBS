@@ -3,7 +3,7 @@ session_start();
 ?>
 
 
-<?php 
+<?php
 include "connexion.php";
 $sql = "SELECT * FROM `etudiant` ";
 $query = $db_con->prepare($sql);
@@ -67,9 +67,21 @@ $total_etudiants = count($data);
   <div class="container bootstrap snippets bootdey">
 
     <div class="row">
-      <?php
-      include "layout/sidebar.php";
-      ?>
+      <div class="col-md-3">
+
+        <a href="#"><strong><i class="glyphicon glyphicon-briefcase"></i> Toolbox</strong></a>
+        <hr>
+        <ul class="nav nav-pills nav-stacked">
+          <li><a href="etudiants.php"><i class="glyphicon glyphicon-user"></i> Étudiants</a></li>
+          <li><a href="ajout_etudiant.php"><i class="glyphicon glyphicon-plus"></i> Ajouter Étudiant</a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-list-alt"></i> Demandes des étudiants </a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-link"></i> Links</a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-book"></i> Books</a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-briefcase"></i> Tools</a></li>
+          <li><a href="#"><i class="glyphicon glyphicon-time"></i> Real-time</a></li>
+        </ul>
+        <hr>
+      </div>
       <div class="col-md-9">
 
         <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>
@@ -78,14 +90,28 @@ $total_etudiants = count($data);
 
           <div class="col-md">
             <div class="well">
-              <div class="glyphicon glyphicon-user"></div>   Nombre  total des étudiants  <span class="badge pull-right">
+              <div class="glyphicon glyphicon-user"></div> Nombre total des étudiants <span class="badge pull-right">
                 <?php echo $total_etudiants; ?>
               </span>
             </div>
             <hr>
             <div class="panel panel-default">
 
-              <?php require "database/etudiants.php" ?>
+              <?php
+              require "database/etudiants.php" 
+  
+              ?>
+              
+            </div>
+          </div>
+          <div class="col-md">
+
+            <div class="input-group mb-3">
+              <form action="search.php" method="get">
+                <h2>Rechercher</h2>
+                <input type="text" name="search" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button type="submit" class="btn-warning btn">Search</button>
+              </form>
             </div>
           </div>
 
