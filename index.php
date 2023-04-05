@@ -1,6 +1,11 @@
 <?php
 include "connexion.php";
+
 session_start();
+if(@$_SESSION['connect_admin']){
+  header('Location: gestion.php');
+
+}
 if (@$_SESSION['connect'] == true) {
   header('Location: myspace.php');
 }

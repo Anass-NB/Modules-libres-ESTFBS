@@ -1,6 +1,10 @@
 <?php
 session_start();
+include "connexion.php";
+if(!$_SESSION['connect_admin']){
+  header('Location: login.php');
 
+}
 ?>
 
 
@@ -17,6 +21,8 @@ session_start();
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
   <style type="text/css">
     body {
       margin-top: 20px;
@@ -57,6 +63,7 @@ session_start();
   <div class="container bootstrap snippets bootdey">
 
     <div class="row">
+
       <div class="col-md-3">
 
         <a href="#"><strong><i class="glyphicon glyphicon-briefcase"></i> Toolbox</strong></a>
@@ -77,7 +84,9 @@ session_start();
         <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>
         <hr>
         <div class="row">
-
+          <div class="col-md">
+            <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+          </div>
           <div class="col-md-7">
             <div class="well">
               <div class="glyphicon glyphicon-user"></div> Total des etudiants <span class="badge pull-right">13</span>
@@ -161,6 +170,83 @@ session_start();
   <script type="text/javascript">
 
   </script>
+  <!-- retreive Data -->
+
+  <?php
+  $sql = "SELECT count(id_etud)  as `Nombre des etudiants` , filiere FROM `etudiant` GROUP BY   filiere;";
+  $query = $db_con->query($sql);
+  $group_by_filiere = $query->fetchAll();
+  echo count($group_by_filiere);
+  $chart_data = array();
+  foreach ($group_by_filiere as $row) {
+    $chart_data[] = array(
+      'filiere' => $row['filiere'],
+      'Nombre des etudiants' => $row['Nombre des etudiants']
+    );
+  }
+  ?>
+  <script>
+    var xValues = <?php echo json_encode(array_column($chart_data, 'filiere')); ?>;
+    var yValues = <?php echo json_encode(array_column($chart_data, 'Nombre des etudiants')); ?>;
+    var barColors = ["blue", "red", "Black"];
+    const colors = [
+      'rgba(255, 99, 132, 0.9)',
+      'rgba(54, 162, 235, 0.9)',
+      'rgba(255, 206, 86, 0.9)',
+      'rgba(75, 192, 192, 0.9)',
+      'rgba(153, 102, 255, 0.9)',
+      'rgba(255, 159, 64, 0.9)',
+      'rgba(255, 99, 132, 0.9)',
+      'rgba(54, 162, 235, 0.9)',
+      'rgba(255, 206, 86, 0.9)',
+      'rgba(75, 192, 192, 0.9)',
+      'rgba(75, 192, 192, 0.9)',
+      'rgba(54, 162, 235, 0.9)',
+      'rgba(75, 192, 192, 0.9)',
+      'rgba(54, 162, 235, 0.9)',
+      'rgba(255, 206, 86, 0.9)',
+      'rgba(255, 99, 132, 0.9)',
+
+
+    ];
+    const dataCount = <?php echo count($group_by_filiere); ?>;
+    const bgColors = colors.slice(0, dataCount);
+    const borderColors = colors.slice(0, dataCount);
+
+    new Chart("myChart", {
+      type: "bar",
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: bgColors,
+          borderColors: borderColors,
+          data: yValues
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            display: true,
+            ticks: {
+              beginAtZero: true,
+              stepSize: 1,
+
+              // max: 100,
+              // min: 0
+            }
+          }]
+        },
+        legend: {
+          display: false
+        },
+        title: {
+          display: true,
+          text: "Nombre des etudiants par filliere"
+        }
+      }
+    });
+  </script>
+
 </body>
 
 </html>
