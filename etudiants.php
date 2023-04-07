@@ -74,7 +74,7 @@ $total_etudiants = count($data);
         <ul class="nav nav-pills nav-stacked">
           <li><a href="etudiants.php"><i class="glyphicon glyphicon-user"></i> Étudiants</a></li>
           <li><a href="ajout_etudiant.php"><i class="glyphicon glyphicon-plus"></i> Ajouter Étudiant</a></li>
-          <li><a href="#"><i class="glyphicon glyphicon-list-alt"></i> Demandes des étudiants </a></li>
+          <li><a href="demandes.php"><i class="glyphicon glyphicon-list-alt"></i> Demandes des étudiants </a></li>
           <li><a href="#"><i class="glyphicon glyphicon-link"></i> Links</a></li>
           <li><a href="#"><i class="glyphicon glyphicon-book"></i> Books</a></li>
           <li><a href="#"><i class="glyphicon glyphicon-briefcase"></i> Tools</a></li>
@@ -88,6 +88,8 @@ $total_etudiants = count($data);
         <hr>
         <div class="row">
 
+
+
           <div class="col-md">
             <div class="well">
               <div class="glyphicon glyphicon-user"></div> Nombre total des étudiants <span class="badge pull-right">
@@ -95,25 +97,85 @@ $total_etudiants = count($data);
               </span>
             </div>
             <hr>
+            <div style="margin-bottom: 10px;" class="col-md">
+
+              <div class="input-group mb-3">
+                <form action="search.php" method="get">
+                  <h4>Rechercher</h4>
+                  <div style="display: flex;justify-content: space-between; width: 100%;">
+                    
+                      <input placeholder="Code Apogee ou Filliere" type="text" name="search" class="form-control">
+                      <button type="submit" style="margin-left: 10px;" class="btn-info btn">Search</button>
+                
+
+                  </div>
+                  <a href="ajout_etudiant.php" class="btn btn-success " style="margin: 10px 0; ">Ajouter un etudiant</a>
+
+                </form>
+              </div>
+            </div>
             <div class="panel panel-default">
 
-              <?php
-              require "database/etudiants.php" 
-  
-              ?>
-              
-            </div>
-          </div>
-          <div class="col-md">
 
-            <div class="input-group mb-3">
-              <form action="search.php" method="get">
-                <h2>Rechercher</h2>
-                <input type="text" name="search" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-                <button type="submit" class="btn-warning btn">Search</button>
-              </form>
+              <table class="table table-hover table-responsive">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Prenom</th>
+                    <th scope="col">Code Apogee</th>
+                    <th scope="col">Date Naissance</th>
+                    <th scope="col">Filliere</th>
+                    <th scope="col">Control</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <?php
+                  $i = 1;
+                  foreach ($data as $etudiant) {
+                    echo "<tr>";
+                    echo "<td>" . $i++ . "</td>";
+                    echo "<td>" . $etudiant["nom"] . "</td>";
+                    echo "<td>" . $etudiant["prenom"] . "</td>";
+                    echo "<td>" . $etudiant["apogee"] . "</td>";
+                    echo "<td>" . $etudiant["date_naissance"] . "</td>";
+                    echo "<td>" . $etudiant["filiere"] . "</td>";
+                  ?>
+
+                    <td>
+                      <a href='edit.php?id=<?php echo $etudiant["id_etud"] ?>' class='btn btn-sm btn-warning'>Modifier</a>
+                      <a href='delete.php?del=<?php echo $etudiant["id_etud"] ?>' class='btn btn-sm btn-danger'>Suprimmer</a>
+
+                    </td>
+                  <?php
+                    echo "</tr>";
+                  }
+                  ?>
+
+
+
+
+                </tbody>
+              </table>
+              <?php
+
+              if (isset($_POST["delete_student"])) {
+                $sql = "DELETE  FROM `etudiant` WHERE id_etud = :id ";
+                $query = $db_con->prepare($sql);
+
+                $row = $query->bindParam(":id", $_POST["id"], PDO::PARAM_STR);
+                $query->execute();
+                echo "<script>  location.reload(); </script>";
+                exit();
+              }
+
+
+              ?>
+
             </div>
           </div>
+
 
           <div class="col-md-5">
             <ul class="nav nav-justified">

@@ -2,7 +2,7 @@
 
 include "connexion.php";
 $search = '%'. $_GET["search"] .'%';
-$sql = "SELECT * FROM `etudiant` WHERE nom LIKE :search";
+$sql = "SELECT * FROM `etudiant` WHERE filiere LIKE :search OR apogee LIKE :search";
 $query = $db_con->prepare($sql);
 $query->bindParam(':search', $search, PDO::PARAM_STR);
 $query->execute();

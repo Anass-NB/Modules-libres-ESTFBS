@@ -1,10 +1,18 @@
 <?php
 session_start();
-include "connexion.php";
-if(!$_SESSION['connect_admin']){
-  header('Location: login.php');
 
-}
+include "connexion.php";
+$sql = "SELECT * FROM `demande` ";
+$query = $db_con->prepare($sql);
+$query->execute();
+$row = $query->rowCount();
+$data = $query->fetchAll();
+$nbr_demandes = count($data);
+print_r($data[0]);
+
+
+
+
 ?>
 
 
@@ -17,12 +25,10 @@ if(!$_SESSION['connect_admin']){
   <meta charset="utf-8">
 
 
-  <title>Espace Admin</title>
+  <title>Les demandes des étudiants </title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-
   <style type="text/css">
     body {
       margin-top: 20px;
@@ -63,7 +69,6 @@ if(!$_SESSION['connect_admin']){
   <div class="container bootstrap snippets bootdey">
 
     <div class="row">
-
       <div class="col-md-3">
 
         <a href="#"><strong><i class="glyphicon glyphicon-briefcase"></i> Toolbox</strong></a>
@@ -84,46 +89,95 @@ if(!$_SESSION['connect_admin']){
         <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>
         <hr>
         <div class="row">
+
+
+
           <div class="col-md">
-            <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-          </div>
-          <div class="col-md-7">
             <div class="well">
-              <div class="glyphicon glyphicon-user"></div>  Nombre total des étudiants <span class="badge pull-right">13</span>
-            </div>
-            <div class="well">
-              <div class="glyphicon glyphicon-user"></div>  Nombre total des demandes <span class="badge pull-right">13</span>
-            </div>
-            <div class="well">
-              <div class="glyphicon glyphicon-user"></div>  Nombre de demandes sans réponse <span class="badge pull-right">13</span>
+              <div class="	glyphicon glyphicon-list-alt"></div> Nombre total des demandes <span class="badge pull-right">
+                <?php echo $nbr_demandes; ?>
+              </span>
             </div>
             <hr>
+
             <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4>Processing Status</h4>
-              </div>
-              <div class="panel-body">
-                <small>Complete</small>
-                <div class="progress">
-                  <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%">
-                    <span class="sr-only">72% Complete</span>
-                  </div>
-                </div>
-                <small>In Progress</small>
-                <div class="progress">
-                  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
-                    <span class="sr-only">20% Complete</span>
-                  </div>
-                </div>
-                <small>At Risk</small>
-                <div class="progress">
-                  <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
-                    <span class="sr-only">80% Complete</span>
-                  </div>
-                </div>
-              </div>
+
+
+              <table class="table table-hover table-responsive">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom et Prenom</th>
+                    <th scope="col">Date du demande </th>
+                    <th scope="col">Les modules demandes</th>
+                    <th scope="col">Documents</th>
+
+                    <th scope="col">Control</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <?php
+                  $i = 1;
+                  foreach ($data as $demande) {
+                    echo "<tr>";
+                    echo "<td>" . $i++ . "</td>";
+                    $query = $db_con->prepare("SELECT nom , prenom from etudiant where id_etud = ".$demande["id_etud"]."");
+                    $query->execute();
+                    $nom = $query->fetch();
+                    echo "<td>" . $nom[0] . " " . $nom[1] .  "</td>";
+                    echo "<td>" . $demande["date_demande"] . "</td>";
+                    echo "<td>" . $demande["modules_demandees"] . "</td>";
+
+                  ?>
+                    <td>
+                      <div class="" style="margin: 5px 0;">
+                        <a href="files_releve_carte/<?php echo $demande["file_releve"]; ?>" download class="btn btn-sm btn-info">
+                          <div class="	glyphicon glyphicon-download-alt"></div>
+                          Relevés de notes
+                        </a>
+                      </div>
+                      <div class="">
+                        <a href="files_releve_carte/<?php echo $demande["file_carte"]; ?>" download class="btn btn-sm btn-success">
+                          <div class="	glyphicon glyphicon-download-alt"></div>
+                          Carte étudiant
+                        </a>
+                      </div>
+
+                    </td>
+                    <td>
+                      <a href='edit.php?id=<?php echo $demande["id_etud"] ?>' class='btn btn-sm btn-warning'>Modifier</a>
+                      <a href='delete.php?del=<?php echo $demande["id_etud"] ?>' class='btn btn-sm btn-danger'>Suprimmer</a>
+
+                    </td>
+                  <?php
+                    echo "</tr>";
+                  }
+                  ?>
+
+
+
+
+                </tbody>
+              </table>
+              <?php
+
+              if (isset($_POST["delete_student"])) {
+                $sql = "DELETE  FROM `etudiant` WHERE id_etud = :id ";
+                $query = $db_con->prepare($sql);
+
+                $row = $query->bindParam(":id", $_POST["id"], PDO::PARAM_STR);
+                $query->execute();
+                echo "<script>  location.reload(); </script>";
+                exit();
+              }
+
+
+              ?>
+
             </div>
           </div>
+
 
           <div class="col-md-5">
             <ul class="nav nav-justified">
@@ -176,83 +230,6 @@ if(!$_SESSION['connect_admin']){
   <script type="text/javascript">
 
   </script>
-  <!-- retreive Data -->
-
-  <?php
-  $sql = "SELECT count(id_etud)  as `Nombre des etudiants` , filiere FROM `etudiant` GROUP BY   filiere;";
-  $query = $db_con->query($sql);
-  $group_by_filiere = $query->fetchAll();
-  echo count($group_by_filiere);
-  $chart_data = array();
-  foreach ($group_by_filiere as $row) {
-    $chart_data[] = array(
-      'filiere' => $row['filiere'],
-      'Nombre des etudiants' => $row['Nombre des etudiants']
-    );
-  }
-  ?>
-  <script>
-    var xValues = <?php echo json_encode(array_column($chart_data, 'filiere')); ?>;
-    var yValues = <?php echo json_encode(array_column($chart_data, 'Nombre des etudiants')); ?>;
-    var barColors = ["blue", "red", "Black"];
-    const colors = [
-      'rgba(255, 99, 132, 0.9)',
-      'rgba(54, 162, 235, 0.9)',
-      'rgba(255, 206, 86, 0.9)',
-      'rgba(75, 192, 192, 0.9)',
-      'rgba(153, 102, 255, 0.9)',
-      'rgba(255, 159, 64, 0.9)',
-      'rgba(255, 99, 132, 0.9)',
-      'rgba(54, 162, 235, 0.9)',
-      'rgba(255, 206, 86, 0.9)',
-      'rgba(75, 192, 192, 0.9)',
-      'rgba(75, 192, 192, 0.9)',
-      'rgba(54, 162, 235, 0.9)',
-      'rgba(75, 192, 192, 0.9)',
-      'rgba(54, 162, 235, 0.9)',
-      'rgba(255, 206, 86, 0.9)',
-      'rgba(255, 99, 132, 0.9)',
-
-
-    ];
-    const dataCount = <?php echo count($group_by_filiere); ?>;
-    const bgColors = colors.slice(0, dataCount);
-    const borderColors = colors.slice(0, dataCount);
-
-    new Chart("myChart", {
-      type: "bar",
-      data: {
-        labels: xValues,
-        datasets: [{
-          backgroundColor: bgColors,
-          borderColors: borderColors,
-          data: yValues
-        }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            display: true,
-            ticks: {
-              beginAtZero: true,
-              stepSize: 1,
-
-              // max: 100,
-              // min: 0
-            }
-          }]
-        },
-        legend: {
-          display: false
-        },
-        title: {
-          display: true,
-          text: "Nombre des etudiants par filliere"
-        }
-      }
-    });
-  </script>
-
 </body>
 
 </html>

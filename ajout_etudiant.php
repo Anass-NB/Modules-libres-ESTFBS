@@ -18,7 +18,7 @@ if (isset($_POST["submit"])) {
   $query->bindParam(':filiere', $filiere, PDO::PARAM_STR);
   $query->bindParam(':statut', $statut, PDO::PARAM_STR);
   $query->execute();
-  header("Location: gestion.php");
+  header("Location: etudiants.php");
 }
 ?>
 <!DOCTYPE html>
