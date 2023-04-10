@@ -1,10 +1,19 @@
 <?php
 session_start();
 include "connexion.php";
-if(!$_SESSION['connect_admin']){
+if (!$_SESSION['connect_admin']) {
   header('Location: login.php');
-
 }
+
+$query = $db_con->prepare("SELECT * FROM `etudiant` ");
+$query->execute();
+$row = $query->rowCount();
+$total_etudiants = $query->rowCount();
+
+$query = $db_con->prepare("SELECT * FROM `demande` ");
+$query->execute();
+$row = $query->rowCount();
+$total_demandes = $query->rowCount();
 ?>
 
 
@@ -22,6 +31,8 @@ if(!$_SESSION['connect_admin']){
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+
 
   <style type="text/css">
     body {
@@ -64,40 +75,42 @@ if(!$_SESSION['connect_admin']){
 
     <div class="row">
 
-      <div class="col-md-3">
-
-        <a href="#"><strong><i class="glyphicon glyphicon-briefcase"></i> Toolbox</strong></a>
-        <hr>
-        <ul class="nav nav-pills nav-stacked">
-          <li><a href="etudiants.php"><i class="glyphicon glyphicon-user"></i> Étudiants</a></li>
-          <li><a href="ajout_etudiant.php"><i class="glyphicon glyphicon-plus"></i> Ajouter Étudiant</a></li>
-          <li><a href="demandes.php"><i class="glyphicon glyphicon-list-alt"></i> Demandes des étudiants </a></li>
-          <li><a href="#"><i class="glyphicon glyphicon-link"></i> Links</a></li>
-          <li><a href="#"><i class="glyphicon glyphicon-book"></i> Books</a></li>
-          <li><a href="#"><i class="glyphicon glyphicon-briefcase"></i> Tools</a></li>
-          <li><a href="#"><i class="glyphicon glyphicon-time"></i> Real-time</a></li>
-        </ul>
-        <hr>
-      </div>
+      <?php include "sidebar.php" ?>
       <div class="col-md-9">
 
         <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>
         <hr>
         <div class="row">
-          <div class="col-md">
+          <div class="col-md-7">
+
             <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
           </div>
-          <div class="col-md-7">
+          <div class="col-md-5">
             <div class="well">
-              <div class="glyphicon glyphicon-user"></div>  Nombre total des étudiants <span class="badge pull-right">13</span>
+              <div class="glyphicon glyphicon-user"></div> Nombre total des étudiants <span class="badge pull-right"><?php echo $total_etudiants; ?></span>
             </div>
             <div class="well">
-              <div class="glyphicon glyphicon-user"></div>  Nombre total des demandes <span class="badge pull-right">13</span>
+              <div class="	glyphicon glyphicon-th-list"></div> Nombre total des demandes <span class="badge pull-right"><?php echo $total_demandes; ?></span>
             </div>
             <div class="well">
-              <div class="glyphicon glyphicon-user"></div>  Nombre de demandes sans réponse <span class="badge pull-right">13</span>
+              <div class="	glyphicon glyphicon-th-large"></div> Nombre de demandes sans réponse <span class="badge pull-right">13</span>
             </div>
             <hr>
+          </div>
+
+          <div class="col">
+          <canvas id="myChart2" style="width:100%;width: 100%;"></canvas>
+
+
+
+          </div>
+
+
+
+
+          <!-- <div class="col-md-7">
+
+
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h4>Processing Status</h4>
@@ -164,7 +177,7 @@ if(!$_SESSION['connect_admin']){
                 Help
               </a>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -178,11 +191,13 @@ if(!$_SESSION['connect_admin']){
   </script>
   <!-- retreive Data -->
 
+
+
   <?php
   $sql = "SELECT count(id_etud)  as `Nombre des etudiants` , filiere FROM `etudiant` GROUP BY   filiere;";
   $query = $db_con->query($sql);
   $group_by_filiere = $query->fetchAll();
-  echo count($group_by_filiere);
+
   $chart_data = array();
   foreach ($group_by_filiere as $row) {
     $chart_data[] = array(
@@ -190,7 +205,67 @@ if(!$_SESSION['connect_admin']){
       'Nombre des etudiants' => $row['Nombre des etudiants']
     );
   }
+  $sql = "SELECT count(id_demande)  as `Nombre des demandes` , date_demande FROM `demande` GROUP BY date_demande;";
+  $query = $db_con->query($sql);
+  $demande_group_by_date = $query->fetchAll();
+
+  $chart_data_demande = array();
+  foreach ($demande_group_by_date as $row) {
+    $chart_data_demande[] = array(
+      'date_demande' => $row['date_demande'],
+      'Nombre des demandes' => $row['Nombre des demandes']
+    );
+  }
+
+
+
   ?>
+
+
+
+
+
+
+  <script>
+    var date = <?php echo json_encode(array_column($chart_data_demande, 'date_demande')); ?>;
+    var nbr_demandes = <?php echo json_encode(array_column($chart_data_demande, 'Nombre des demandes')); ?>;
+    
+    new Chart("myChart2", {
+      type: "line",
+      data: {
+        labels: date,
+        datasets: [ {
+          data: nbr_demandes,
+          borderColor: "blue",
+          fill: false
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        scales: {
+          yAxes: [{
+            display: true,
+            ticks: {
+              beginAtZero: true,
+              stepSize: 5,
+
+               max: 100,
+              // min: 0
+            }
+          }]
+        },
+        title: {
+          display: true,
+          text: "Nombre des demandes par date"
+        }
+      }
+    });
+  </script>
+
+
+
   <script>
     var xValues = <?php echo json_encode(array_column($chart_data, 'filiere')); ?>;
     var yValues = <?php echo json_encode(array_column($chart_data, 'Nombre des etudiants')); ?>;

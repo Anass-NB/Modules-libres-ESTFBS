@@ -67,21 +67,8 @@ $total_etudiants = count($data);
   <div class="container bootstrap snippets bootdey">
 
     <div class="row">
-      <div class="col-md-3">
+    <?php include "sidebar.php" ?>
 
-        <a href="#"><strong><i class="glyphicon glyphicon-briefcase"></i> Toolbox</strong></a>
-        <hr>
-        <ul class="nav nav-pills nav-stacked">
-          <li><a href="etudiants.php"><i class="glyphicon glyphicon-user"></i> Étudiants</a></li>
-          <li><a href="ajout_etudiant.php"><i class="glyphicon glyphicon-plus"></i> Ajouter Étudiant</a></li>
-          <li><a href="demandes.php"><i class="glyphicon glyphicon-list-alt"></i> Demandes des étudiants </a></li>
-          <li><a href="#"><i class="glyphicon glyphicon-link"></i> Links</a></li>
-          <li><a href="#"><i class="glyphicon glyphicon-book"></i> Books</a></li>
-          <li><a href="#"><i class="glyphicon glyphicon-briefcase"></i> Tools</a></li>
-          <li><a href="#"><i class="glyphicon glyphicon-time"></i> Real-time</a></li>
-        </ul>
-        <hr>
-      </div>
       <div class="col-md-9">
 
         <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>
@@ -144,7 +131,7 @@ $total_etudiants = count($data);
                   ?>
 
                     <td>
-                      <a href='edit.php?id=<?php echo $etudiant["id_etud"] ?>' class='btn btn-sm btn-warning'>Modifier</a>
+                      <a href='edit.php?edit=etudiant&id=<?php echo $etudiant["id_etud"] ?>' class='btn btn-sm btn-warning'>Modifier</a>
                       <a href='delete.php?del=<?php echo $etudiant["id_etud"] ?>' class='btn btn-sm btn-danger'>Suprimmer</a>
 
                     </td>
@@ -177,7 +164,7 @@ $total_etudiants = count($data);
           </div>
 
 
-          <div class="col-md-5">
+          <!-- <div class="col-md-5">
             <ul class="nav nav-justified">
               <li><a href="#"><i class="glyphicon glyphicon-cog"></i></a></li>
               <li><a href="#"><i class="glyphicon glyphicon-heart"></i></a></li>
@@ -216,7 +203,7 @@ $total_etudiants = count($data);
                 Help
               </a>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
