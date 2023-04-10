@@ -55,7 +55,7 @@ $total_etudiants = count($data);
               <span class="caret"></span></a>
             <ul id="g-account-menu" class="dropdown-menu" role="menu">
               <li><a href="#">My Profile</a></li>
-              <li><a href="#"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
+              <li><a href="deconnexion.php"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -104,7 +104,7 @@ $total_etudiants = count($data);
                   <h4>Rechercher</h4>
                   <div style="display: flex;justify-content: space-between; width: 100%;">
                     
-                      <input placeholder="Code Apogee ou Filliere" type="text" name="search" class="form-control">
+                      <input required placeholder="Code Apogee ou Filliere" type="text" name="search" class="form-control">
                       <button type="submit" style="margin-left: 10px;" class="btn-info btn">Search</button>
                 
 

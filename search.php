@@ -12,7 +12,21 @@ $data = $query->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Result</title>
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
 
+</head>
+<body>
+  <div class="container">
+    <a href="etudiants.php" style="margin-top: 10px" class="btn btn-success">Back</a>
+    <h2>Resultats</h2>
+      
 <table class="table table-hover table-responsive">
         <thead>
           <tr>
@@ -49,3 +63,6 @@ $data = $query->fetchAll(PDO::FETCH_ASSOC);
 
         </tbody>
       </table>
+  </div>
+</body>
+</html>

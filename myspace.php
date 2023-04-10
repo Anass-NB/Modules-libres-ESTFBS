@@ -1,10 +1,19 @@
-
 <?php
 session_start();
 include "connexion.php";
 if (!$_SESSION["connect"]) {
   header('Location: index.php');
 }
+
+
+$sql = "SELECT * FROM `demande` WHERE id_etud = :id";
+$query = $db_con->prepare($sql);
+$query->bindParam(':id', $_SESSION["user"]["id_etud"], PDO::PARAM_INT);
+$query->execute();
+
+$row = $query->rowCount();
+
+
 
 ?>
 
@@ -19,14 +28,14 @@ if (!$_SESSION["connect"]) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Espace Etudiant</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
 
 
 </head>
 
 <body class="container">
-
   <div class="container">
- 
+
     <?php
 
     echo "<h1>Bonjour " . $_SESSION['user']["nom"]  . " " .  $_SESSION['user']["prenom"]  .  "</h1>";
@@ -35,18 +44,56 @@ if (!$_SESSION["connect"]) {
     //   echo "<div style='display:none'>";
     // }
     ?>
-
-    <!-- <div style="display: flex;justify-content: space-between;"> -->
-
-    <div>
-      <h3>Veuillez sélectionner au maximum 4 modules. Merci</h3>
-      <h3>Demande de modules libres <span style="color: red;">(4 modules au maximum)</span></h3>
-    </div>
-    <div>
+        <div style="text-align: end;">
       <form action="deconnexion.php" method="post">
         <button style="background-color: #F44336;color: white;padding: 10px;border: none;cursor: pointer;" type="submit">Deconnexion</button>
       </form>
     </div>
+
+
+    <div>
+      <?php if ($row > 0) {
+        $data = $query->fetchAll(PDO::FETCH_ASSOC);
+      ?>
+        <h3>Mes Demandes</h3>
+            
+<table class="table table-hover table-responsive">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">les modules demandées</th>
+            <th scope="col">La date du demande</th>
+
+            <th scope="col">Control</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+            <?php
+            foreach ($data as $demande) {
+              echo "<tr>";
+              echo "<td>XXX</td>";
+              echo "<td>". $demande["modules_demandees"] ."</td>";
+              echo "<td>". $demande["date_demande"] ."</td>";
+    
+              echo "  <td>
+              <a href='#' class='btn btn-sm btn-warning'>Modifier</a>
+              <a href='#' class='btn btn-sm btn-danger'>Supprimer</a>
+            </td>";
+              echo "</tr>";
+            }
+            ?>
+          
+         
+          
+
+        </tbody>
+      </table>
+      <?php } else { ?>
+        <h3>Veuillez sélectionner au maximum 4 modules. Merci</h3>
+        <h3>Demande de modules libres <span style="color: red;">(4 modules au maximum)</span></h3>
+    </div>
+
   </div>
   <form action="selection.php" method="get">
     <input type="hidden" name="etudiant_nom" value="<?php echo $_SESSION['user']["nom"] ?>">
@@ -104,3 +151,4 @@ if (!$_SESSION["connect"]) {
 </body>
 
 </html>
+<?php } ?>

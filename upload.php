@@ -73,6 +73,6 @@ if ($carte_etudiant_size > 1024 * 1024 * 3) {
   $query= $db_con->prepare($sql);
   $query->execute([$_SESSION["user"]["id_etud"], date("Y-m-d"),$_SESSION["data"]["modules"], $name_re . "." . $releve_note_extension ,$name_ca . "." . $carte_etudiant_extension,0]);
 
-header('Location: deconnexion.php');
+header('Location: myspace.php');
 
 ?>
