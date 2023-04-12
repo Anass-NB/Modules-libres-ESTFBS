@@ -72,13 +72,14 @@ $row = $query->rowCount();
             <?php
             foreach ($data as $demande) {
               echo "<tr>";
-              echo "<td>XXX</td>";
+              echo "<td>-</td>";
               echo "<td>". $demande["modules_demandees"] ."</td>";
               echo "<td>". $demande["date_demande"] ."</td>";
     
               echo "  <td>
-              <a href='#' class='btn btn-sm btn-warning'>Modifier</a>
-              <a href='#' class='btn btn-sm btn-danger'>Supprimer</a>
+              <a href='#' class='btn btn-sm btn-warning'>Modifier Les modules</a>
+              <a href='#' class='btn btn-sm btn-warning'>Modifier Les documents</a>
+              <a href='#' class='btn btn-sm btn-danger'>Supprimer La demande</a>
             </td>";
               echo "</tr>";
             }

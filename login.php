@@ -1,8 +1,10 @@
-
-<?php 
+<?php
 include "connexion.php";
 session_start();
 if (@$_SESSION['connect_admin'] == true) {
+  header('Location: gestion.php');
+}
+if (@$_SESSION['connect_agent'] == true) {
   header('Location: gestion.php');
 }
 if (@$_SESSION['connect']) {
@@ -19,8 +21,18 @@ if (isset($_POST['login'])) {
     $row = $query->rowCount();
     $fetch = $query->fetch();
     if ($row > 0) {
-      $_SESSION['connect_admin'] = true;
+   
       $_SESSION['user'] = $fetch;
+      switch ($fetch["profil"]) {
+        case 1:
+          $_SESSION['connect_admin'] = true;
+          break;
+
+        case 0:
+          $_SESSION['connect_agent'] = true;
+          break;
+      }
+
 
       header("location: gestion.php");
     } else {
@@ -57,7 +69,7 @@ if (isset($_POST['login'])) {
             <a href="index.php" class="btn btn-sm btn-success">back</a>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">Email address</label>
-              <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
+              <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
               <label for="exampleInputPassword1" class="form-label">Password</label>

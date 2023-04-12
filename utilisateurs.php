@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+if(!$_SESSION['connect_admin']){
+  header("Location: login.php");
+}
 ?>
 
 
@@ -36,32 +40,7 @@ $total_utilisateurs = count($data);
 
 <body>
 
-  <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
-    <div class="container bootstrap snippets bootdey">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-toggle"></span>
-        </button>
-        <a class="navbar-brand" href="#">ESTFBS</a>
-      </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
-              <i class="glyphicon glyphicon-user"></i>
-              <?php
-              echo $_SESSION["user"]["profil"] == 1 ? "Chef de scolarité" : "Agent";
-              ?>
-              <span class="caret"></span></a>
-            <ul id="g-account-menu" class="dropdown-menu" role="menu">
-              <li><a href="#">My Profile</a></li>
-              <li><a href="deconnexion.php"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+<?php include "navbar.php";?>
 
 
   <div class="container bootstrap snippets bootdey">

@@ -1,9 +1,9 @@
 <?php
 session_start();
 include "connexion.php";
-if (!$_SESSION['connect_admin']) {
-  header('Location: login.php');
-}
+// if (!$_SESSION['connect_admin']) {
+//   header('Location: login.php');
+// }
 
 $query = $db_con->prepare("SELECT * FROM `etudiant` ");
 $query->execute();
@@ -42,33 +42,7 @@ $total_demandes = $query->rowCount();
 </head>
 
 <body>
-
-  <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
-    <div class="container bootstrap snippets bootdey">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-toggle"></span>
-        </button>
-        <a class="navbar-brand" href="#">ESTFBS</a>
-      </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
-              <i class="glyphicon glyphicon-user"></i>
-              <?php
-              echo $_SESSION["user"]["profil"] == 1 ? "Chef de scolarité" : "Agent";
-              ?>
-              <span class="caret"></span></a>
-            <ul id="g-account-menu" class="dropdown-menu" role="menu">
-              <li><a href="#">My Profile</a></li>
-              <li><a href="#"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+<?php include "navbar.php";?>
 
 
   <div class="container bootstrap snippets bootdey">
@@ -98,11 +72,40 @@ $total_demandes = $query->rowCount();
             <hr>
           </div>
 
-          <div class="col">
-          <canvas id="myChart2" style="width:100%;width: 100%;"></canvas>
+          <div class="col-md-7">
+            <canvas id="myChart2" style="width:100%;width: 100%;"></canvas>
+          </div>
 
+          <div class="col-md-5">
+            <h4>Nombre des demandes par filliere : </h4>
+            <table style="    background: #e4e4e4;border: 2px solid;" class="table table-responsive table-hover">
+              <?php
+              $sql = "SELECT filiere, COUNT(*) as nb_demandes
+              FROM demande d
+              JOIN etudiant e ON d.id_etud = e.id_etud
+              GROUP BY filiere;";
+              $query = $db_con->prepare($sql);
 
+              $query->execute();
+              $data = $query->fetchAll();
 
+              ?>
+
+              <thead>
+                <td>Filliere</td>
+                <td>Nombre des demandes Demandes</td>
+              </thead>
+              <tbody>
+                <?php foreach ($data as  $record) {
+                  # code...
+                ?>
+                <tr>
+                  <th><?php echo $record["filiere"] ?></th>
+                  <th><?php echo $record["nb_demandes"] ?> Demandes</th>
+                </tr>
+                <?php   } ?>
+              </tbody>
+            </table>
           </div>
 
 
@@ -229,12 +232,12 @@ $total_demandes = $query->rowCount();
   <script>
     var date = <?php echo json_encode(array_column($chart_data_demande, 'date_demande')); ?>;
     var nbr_demandes = <?php echo json_encode(array_column($chart_data_demande, 'Nombre des demandes')); ?>;
-    
+
     new Chart("myChart2", {
       type: "line",
       data: {
         labels: date,
-        datasets: [ {
+        datasets: [{
           data: nbr_demandes,
           borderColor: "blue",
           fill: false
@@ -251,7 +254,7 @@ $total_demandes = $query->rowCount();
               beginAtZero: true,
               stepSize: 5,
 
-               max: 100,
+              max: 100,
               // min: 0
             }
           }]

@@ -36,33 +36,8 @@ $total_etudiants = count($data);
 
 <body>
 
-  <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
-    <div class="container bootstrap snippets bootdey">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-toggle"></span>
-        </button>
-        <a class="navbar-brand" href="#">ESTFBS</a>
-      </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
-              <i class="glyphicon glyphicon-user"></i>
-              <?php
-              echo $_SESSION["user"]["profil"] == 1 ? "Chef de scolarité" : "Agent";
-              ?>
-              <span class="caret"></span></a>
-            <ul id="g-account-menu" class="dropdown-menu" role="menu">
-              <li><a href="#">My Profile</a></li>
-              <li><a href="deconnexion.php"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
+    
+<?php include "navbar.php";?>
 
   <div class="container bootstrap snippets bootdey">
 
@@ -96,8 +71,9 @@ $total_etudiants = count($data);
                 
 
                   </div>
+                  <?php if($_SESSION["user"]["profil"] == 1){ ?>
                   <a href="ajout_etudiant.php" class="btn btn-success " style="margin: 10px 0; ">Ajouter un etudiant</a>
-
+                  <?php } ?>
                 </form>
               </div>
             </div>
@@ -113,7 +89,9 @@ $total_etudiants = count($data);
                     <th scope="col">Code Apogee</th>
                     <th scope="col">Date Naissance</th>
                     <th scope="col">Filliere</th>
+                    <?php if($_SESSION["user"]["profil"] == 1){ ?>
                     <th scope="col">Control</th>
+                    <?php } ?>
                   </tr>
                 </thead>
                 <tbody>
@@ -129,6 +107,7 @@ $total_etudiants = count($data);
                     echo "<td>" . $etudiant["date_naissance"] . "</td>";
                     echo "<td>" . $etudiant["filiere"] . "</td>";
                   ?>
+                    <?php if($_SESSION["user"]["profil"] == 1){ ?>
 
                     <td>
                       <a href='edit.php?edit=etudiant&id=<?php echo $etudiant["id_etud"] ?>' class='btn btn-sm btn-warning'>Modifier</a>
@@ -137,6 +116,7 @@ $total_etudiants = count($data);
                     </td>
                   <?php
                     echo "</tr>";
+                    }
                   }
                   ?>
 

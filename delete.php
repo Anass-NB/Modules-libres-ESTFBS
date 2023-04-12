@@ -16,6 +16,14 @@ $query-> bindParam(':id',$id, PDO::PARAM_STR);
 
 $query -> execute();
 
+
+//Delete from table demande
+$sql = "delete from demande WHERE  id_etud=:id";
+$query = $db_con->prepare($sql);
+$query-> bindParam(':id',$id, PDO::PARAM_STR);
+$query -> execute();
+
+
 // echo "<script>alert('Etudiant Ajoutee  ');</script>";
 // Code for redirection
 echo "<script>window.location.href='etudiants.php'</script>";
