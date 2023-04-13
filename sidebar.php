@@ -10,7 +10,6 @@
 
     <li><a href="demandes.php"><i class="glyphicon glyphicon-list-alt"></i> Demandes des étudiants </a></li>
     <?php if (@$_SESSION['connect_admin']) { ?>
-
       <li><a href="utilisateurs.php"><i class="glyphicon glyphicon-user"></i> Utilisateurs</a></li>
     <?php } ?>
 

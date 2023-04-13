@@ -1,5 +1,9 @@
 <?php
 session_start();
+// if (!$_SESSION['connect_admin'] || !$_SESSION['connect_agent'] ) {
+//   header("Location: login.php");
+// }
+
 include "connexion.php";
 // if (!$_SESSION['connect_admin']) {
 //   header('Location: login.php');
@@ -14,6 +18,14 @@ $query = $db_con->prepare("SELECT * FROM `demande` ");
 $query->execute();
 $row = $query->rowCount();
 $total_demandes = $query->rowCount();
+$query = $db_con->prepare("SELECT * FROM demande WHERE reponse_admin IS NULL;");
+$query->execute();
+$row = $query->rowCount();
+$nb_demandes_sans_reponse = $query->rowCount();
+
+
+
+
 ?>
 
 
@@ -34,11 +46,7 @@ $total_demandes = $query->rowCount();
 
 
 
-  <style type="text/css">
-    body {
-      margin-top: 20px;
-    }
-  </style>
+
 </head>
 
 <body>
@@ -67,7 +75,7 @@ $total_demandes = $query->rowCount();
               <div class="	glyphicon glyphicon-th-list"></div> Nombre total des demandes <span class="badge pull-right"><?php echo $total_demandes; ?></span>
             </div>
             <div class="well">
-              <div class="	glyphicon glyphicon-th-large"></div> Nombre de demandes sans réponse <span class="badge pull-right">13</span>
+              <div class="	glyphicon glyphicon-th-large"></div> Nombre de demandes sans réponse <span class="badge pull-right"><?php echo $nb_demandes_sans_reponse; ?></span>
             </div>
             <hr>
           </div>
@@ -93,7 +101,7 @@ $total_demandes = $query->rowCount();
 
               <thead>
                 <td>Filliere</td>
-                <td>Nombre des demandes Demandes</td>
+                <td>Nombre des  Demandes</td>
               </thead>
               <tbody>
                 <?php foreach ($data as  $record) {
@@ -252,9 +260,9 @@ $total_demandes = $query->rowCount();
             display: true,
             ticks: {
               beginAtZero: true,
-              stepSize: 5,
+              stepSize: 2,
 
-              max: 100,
+              max: 20,
               // min: 0
             }
           }]

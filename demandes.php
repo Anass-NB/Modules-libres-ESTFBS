@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+// if (!$_SESSION['connect_admin'] || !$_SESSION['connect_agent']) {
+//   header("Location: login.php");
+// }
+
 include "connexion.php";
 $sql = "SELECT * FROM `demande` ";
 $query = $db_con->prepare($sql);
@@ -29,41 +33,11 @@ $nbr_demandes = count($data);
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
-  <style type="text/css">
-    body {
-      margin-top: 20px;
-    }
-  </style>
+  
 </head>
 
 <body>
-
-  <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
-    <div class="container bootstrap snippets bootdey">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-toggle"></span>
-        </button>
-        <a class="navbar-brand" href="#">ESTFBS</a>
-      </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown">
-            <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
-              <i class="glyphicon glyphicon-user"></i>
-              <?php
-              echo $_SESSION["user"]["profil"] == 1 ? "Chef de scolarité" : "Agent";
-              ?>
-              <span class="caret"></span></a>
-            <ul id="g-account-menu" class="dropdown-menu" role="menu">
-              <li><a href="#">My Profile</a></li>
-              <li><a href="#"><i class="glyphicon glyphicon-lock"></i> Logout</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+<?php include "navbar.php";?>
 
 
   <div class="container bootstrap snippets bootdey">

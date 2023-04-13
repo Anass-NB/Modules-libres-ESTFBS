@@ -12,7 +12,7 @@
             <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
               <i class="glyphicon glyphicon-user"></i>
               <?php
-                echo $_SESSION["user"]["profil"] == 1 ? "Chef de scolarité" : "Agent";
+                echo isset($_SESSION['connect_admin']) ? "Chef de scolarité - " . $_SESSION['user']["login"] : "Agent - " . $_SESSION['user']["login"];
               ?>
               <span class="caret"></span></a>
             <ul id="g-account-menu" class="dropdown-menu" role="menu">
