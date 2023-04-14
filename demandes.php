@@ -17,6 +17,29 @@ $nbr_demandes = count($data);
 
 
 
+
+if (isset($_POST["eregistrer_reponse"])) {
+  $id_etud = $_POST["id_etud"];
+  $id_utilisateur = $_POST["id_utilisateur"];
+  $reponse_admin = $_POST["reponse_admin"];
+
+  $statut = 1;
+  $sql = "update demande set id_utilisateur=:id_utilisateur,reponse_admin=:reponse_admin where id_etud=:id_etud";
+
+  $query = $db_con->prepare($sql);
+
+  $query->bindParam(':id_utilisateur', $id_utilisateur, PDO::PARAM_STR);
+  $query->bindParam(':id_etud', $id_etud, PDO::PARAM_INT);
+  $query->bindParam(':reponse_admin', $reponse_admin, PDO::PARAM_STR);
+  $query->execute();
+  echo "<script>window.location = 'demandes.php'</script>";
+  exit();
+}
+
+
+
+
+
 ?>
 
 
@@ -33,17 +56,21 @@ $nbr_demandes = count($data);
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.1/css/bootstrap.min.css" rel="stylesheet">
-  
+  <style>
+    td {
+      border-bottom: 1px solid #2196F3;
+    }
+  </style>
 </head>
 
 <body>
-<?php include "navbar.php";?>
+  <?php include "navbar.php"; ?>
 
 
   <div class="container bootstrap snippets bootdey">
 
     <div class="row">
-    <?php include "sidebar.php" ?>
+      <?php include "sidebar.php" ?>
 
       <div class="col-md-9">
 
@@ -66,7 +93,7 @@ $nbr_demandes = count($data);
 
               <table class="table table-hover table-responsive">
                 <thead>
-                  <tr>
+                  <tr style="background: #607d8b78;border: 1px solid #2196F3;">
                     <th scope="col">#</th>
                     <th scope="col">Nom et Prenom</th>
                     <th scope="col">Date du demande </th>
@@ -83,10 +110,11 @@ $nbr_demandes = count($data);
                   foreach ($data as $demande) {
                     echo "<tr>";
                     echo "<td>" . $i++ . "</td>";
-                    $query = $db_con->prepare("SELECT nom , prenom from etudiant where id_etud = ".$demande["id_etud"]."");
+                    $query = $db_con->prepare("SELECT nom , prenom from etudiant where id_etud = " . $demande["id_etud"] . "");
                     $query->execute();
+
                     $nom = $query->fetch();
-                    echo "<td>" . $nom[0] . " " . $nom[1] .  "</td>";
+                    echo "<td>" . $nom[0] . "  " . $nom[1] .  "</td>";
                     echo "<td>" . $demande["date_demande"] . "</td>";
                     echo "<td>" . $demande["modules_demandees"] . "</td>";
 
@@ -104,11 +132,16 @@ $nbr_demandes = count($data);
                           Carte étudiant
                         </a>
                       </div>
-
+                      </pre>
                     </td>
                     <td>
-                      <a href='edit.php?id=<?php echo $demande["id_etud"] ?>' class='btn btn-sm btn-warning'>Modifier</a>
-                      <a href='delete.php?del=<?php echo $demande["id_etud"] ?>' class='btn btn-sm btn-danger'>Suprimmer</a>
+                      <form method="post">
+                        <input type="hidden" name="id_etud" value="<?php echo $demande["id_etud"] ?>">
+                        <input type="hidden" name="id_utilisateur" value="<?php echo $_SESSION["user"]["id_utilisateur"] ?>">
+                        <textarea style="padding: 8px;border: 1px solid #3F51B5;border-radius: 4px;margin-bottom: 4px;" name="reponse_admin" placeholder="ajouter une reponse" cols="30" rows="3"><?php echo $demande["reponse_admin"]; ?></textarea>
+
+                        <input type="submit" name="eregistrer_reponse" class='btn btn-sm btn-danger' value="Enregistrer la reponse" />
+                      </form>
 
                     </td>
                   <?php
@@ -121,26 +154,13 @@ $nbr_demandes = count($data);
 
                 </tbody>
               </table>
-              <?php
 
-              if (isset($_POST["delete_student"])) {
-                $sql = "DELETE  FROM `etudiant` WHERE id_etud = :id ";
-                $query = $db_con->prepare($sql);
-
-                $row = $query->bindParam(":id", $_POST["id"], PDO::PARAM_STR);
-                $query->execute();
-                echo "<script>  location.reload(); </script>";
-                exit();
-              }
-
-
-              ?>
 
             </div>
           </div>
 
 
-   
+
         </div>
       </div>
     </div>

@@ -50,7 +50,7 @@ $nb_demandes_sans_reponse = $query->rowCount();
 </head>
 
 <body>
-<?php include "navbar.php";?>
+  <?php include "navbar.php"; ?>
 
 
   <div class="container bootstrap snippets bootdey">
@@ -63,6 +63,7 @@ $nb_demandes_sans_reponse = $query->rowCount();
         <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>
         <hr>
         <div class="row">
+      
           <div class="col-md-7">
 
             <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
@@ -101,16 +102,16 @@ $nb_demandes_sans_reponse = $query->rowCount();
 
               <thead>
                 <td>Filliere</td>
-                <td>Nombre des  Demandes</td>
+                <td>Nombre des Demandes</td>
               </thead>
               <tbody>
                 <?php foreach ($data as  $record) {
                   # code...
                 ?>
-                <tr>
-                  <th><?php echo $record["filiere"] ?></th>
-                  <th><?php echo $record["nb_demandes"] ?> Demandes</th>
-                </tr>
+                  <tr>
+                    <th><?php echo $record["filiere"] ?></th>
+                    <th><?php echo $record["nb_demandes"] ?> Demandes</th>
+                  </tr>
                 <?php   } ?>
               </tbody>
             </table>

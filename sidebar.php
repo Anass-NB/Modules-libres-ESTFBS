@@ -16,6 +16,9 @@
     <?php if (@$_SESSION['connect_admin']) { ?>
       <li><a href="ajout_utilisateur.php"><i class="glyphicon glyphicon-plus"></i> Ajouter Utilisateur</a></li>
     <?php } ?>
+    <?php if (@$_SESSION['connect_admin']) { ?>
+      <li><a href="status_demandes.php"><i class="glyphicon glyphicon-off"></i> Clôturer  les demandes  </a></li>
+    <?php } ?>
   </ul>
   <hr>
 </div>

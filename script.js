@@ -3,10 +3,25 @@ console.log(all_check_boxs);
 
 let num = 0;
 let max = 4;
+function checkCount() {
+  var count = 0;
+  for (var i = 0; i < all_check_boxs.length; i++) {
+    if (all_check_boxs[i].checked) {
+      count++;
+    }
+  }
+  if (count == 0) {
+    document.getElementById("envoyer").disabled = true;
+  } else {
+    document.getElementById("envoyer").disabled = false;
+  }
+}
+
+
 
 all_check_boxs.forEach(element => {
   element.addEventListener("change", function () {
-
+ 
     if (element.checked) {
       num++;
     }
@@ -26,11 +41,12 @@ all_check_boxs.forEach(element => {
       });
     }
 
+
   });
 
 });
 
-
+let btn_envoyer = document.querySelector(".envoyer-btn");
 
 //Number Of essays
 

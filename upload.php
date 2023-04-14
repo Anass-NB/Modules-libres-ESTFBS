@@ -71,7 +71,12 @@ if ($carte_etudiant_size > 1024 * 1024 * 3) {
 
   $sql = "INSERT INTO demande (id_etud , date_demande, modules_demandees,file_releve,file_carte,id_utilisateur ) VALUES (?,?,?,?,?,?)";
   $query= $db_con->prepare($sql);
-  $query->execute([$_SESSION["user"]["id_etud"], date("Y-m-d"),$_SESSION["data"]["modules"], $name_re . "." . $releve_note_extension ,$name_ca . "." . $carte_etudiant_extension,0]);
+  $releve = $name_re . "." . $releve_note_extension;
+  $carte = $name_ca . "." . $carte_etudiant_extension;
+  if(isset($_SESSION["data"]["modules"]) && isset($releve) && isset($carte) ){
+
+    $query->execute([$_SESSION["user"]["id_etud"], date("Y-m-d"),$_SESSION["data"]["modules"], $releve ,$carte,0]);
+  }
 
 header('Location: myspace.php');
 

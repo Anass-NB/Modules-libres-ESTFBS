@@ -35,65 +35,95 @@ $row = $query->rowCount();
 
 <body class="container">
   <div class="container">
-
+   <div>
+   <form style="text-align: right; margin: 10px;" action="deconnexion.php" method="post">
+      <button style="background-color: #F44336;color: white;padding: 10px;border: none;cursor: pointer;" type="submit">Deconnexion</button>
+    </form>
+   </div>
     <?php
 
     echo "<h1>Bonjour " . $_SESSION['user']["nom"]  . " " .  $_SESSION['user']["prenom"]  .  "</h1>";
-    // if ($_SESSION['email'] === "kamal@gmail.com" || $_SESSION['email'] === "a.ali@gmail.com") {
-    //   echo "Vous ne pouvez pas réaliser cette demande , <br> Veuillez  Contacter le service de scolarité";
-    //   echo "<div style='display:none'>";
-    // }
+
+    $status_demandes = file_get_contents("cloturer_operation.txt");
+    if ($status_demandes == 0) {
+      echo "<div style='background-color: #2196f3;
+    color: white;
+    width: fit-content;
+    font-size: 22px;
+    padding: 10px 15px;
+    border-radius: 5px;' class='cloturer'>l'opération des demandes de modules libres est cloturee </div>";
+
+
     ?>
-        <div style="text-align: end;">
-      <form action="deconnexion.php" method="post">
-        <button style="background-color: #F44336;color: white;padding: 10px;border: none;cursor: pointer;" type="submit">Deconnexion</button>
-      </form>
-    </div>
 
 
-    <div>
-      <?php if ($row > 0) {
-        $data = $query->fetchAll(PDO::FETCH_ASSOC);
-      ?>
-        <h3>Mes Demandes</h3>
-            
-<table class="table table-hover table-responsive">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">les modules demandées</th>
-            <th scope="col">La date du demande</th>
+    <?php  } else { ?>
+      <div>
+        <?php if ($row > 0) {
+          $data = $query->fetchAll(PDO::FETCH_ASSOC);
+        ?>
 
-            <th scope="col">Control</th>
-          </tr>
-        </thead>
-        <tbody>
-          
+          <h3>Mes Demandes</h3>
+
+          <table class="table table-hover table-responsive">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">les modules demandées</th>
+                <th scope="col">La date du demande</th>
+                <th scope="col">Reponses</th>
+                <th scope="col">Control</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <?php
+              foreach ($data as $demande) {
+              ?>
+                <tr>
+                  <td>-</td>
+                  <td><?php echo  $demande["modules_demandees"] ?></td>
+                  <td><?php echo $demande["date_demande"] ?></td>
+                  <td style="color: #ff5198;"><?php echo isset($demande["reponse_admin"]) ? $demande["reponse_admin"] : "--Acune reponse--";  ?></td>
+
+                  <td>
+                    <a href='#' class='btn btn-sm btn-warning'>Modifier Les modules</a>
+                    <a href='#' class='btn btn-sm btn-warning'>Modifier Les documents</a>
+                    <form method="post">
+                      <input type="hidden" name="id_demande" value="<?php echo $demande["id_demande"] ?>">
+                      <input type="submit" name="delete_demande" class='btn btn-sm btn-danger' value="Supprimer La demande" />
+                    </form>
+                  </td>
+                </tr>
+              <?php } ?>
+
+
+
+
+
+            </tbody>
             <?php
-            foreach ($data as $demande) {
-              echo "<tr>";
-              echo "<td>-</td>";
-              echo "<td>". $demande["modules_demandees"] ."</td>";
-              echo "<td>". $demande["date_demande"] ."</td>";
-    
-              echo "  <td>
-              <a href='#' class='btn btn-sm btn-warning'>Modifier Les modules</a>
-              <a href='#' class='btn btn-sm btn-warning'>Modifier Les documents</a>
-              <a href='#' class='btn btn-sm btn-danger'>Supprimer La demande</a>
-            </td>";
-              echo "</tr>";
-            }
-            ?>
-          
-         
-          
 
-        </tbody>
-      </table>
-      <?php } else { ?>
-        <h3>Veuillez sélectionner au maximum 4 modules. Merci</h3>
-        <h3>Demande de modules libres <span style="color: red;">(4 modules au maximum)</span></h3>
-    </div>
+            if (isset($_POST["delete_demande"])) {
+              $sql = "DELETE  FROM `demande` WHERE id_demande= :id ";
+              $query = $db_con->prepare($sql);
+              $row = $query->bindParam(":id", $_POST["id_demande"], PDO::PARAM_INT);
+              $query->execute();
+              echo "<script>window.location.href='myspace.php'</script>";
+              exit();
+            }
+
+
+            ?>
+          </table>
+
+
+          
+      
+        <?php } else { ?>
+          <h3>Veuillez sélectionner au maximum 4 modules. Merci</h3>
+          <h3>Demande de modules libres <span style="color: red;">(4 modules au maximum)</span></h3>
+      </div>
 
   </div>
   <form action="selection.php" method="get">
@@ -143,12 +173,13 @@ $row = $query->rowCount();
         </div>
       </div>
     </div>
-    <input type="submit" value="Etape suivant" class="envoyer-btn">
+    <input type="submit" value="Etape suivant" id="envoyer" class="envoyer-btn">
   </form>
   </div>
   <!-- </div> -->
+<?php } ?>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 
 </html>

@@ -1,11 +1,11 @@
 <?php
+include "connexion.php";
 session_start();
 if (!$_SESSION['connect_admin']) {
   header("Location: login.php");
 }
 
 if (isset($_POST["submit"])) {
-  include "connexion.php";
 
   $login = $_POST["login"];
   $password = $_POST["password"];
