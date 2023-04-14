@@ -37,37 +37,37 @@ if (!$_SESSION['connect_admin']) {
       <div class="col-md-9">
 
         <a href="#"><strong><i class="glyphicon glyphicon-dashboard"></i> My Dashboard</strong></a>
-       <div>
-        <?php 
-if (isset($_POST["submit"])) {
-  $apogee = $_POST["apogee"];
-  //verification unique code
-  $stmt = $db_con->prepare("SELECT * FROM etudiant WHERE apogee = :apogee");
-  $stmt->bindParam(':apogee', $apogee);
-  $stmt->execute();
-  if ($stmt->rowCount() > 0) {
-    echo "<li class='alert alert-danger'>Le code Apogee existe déjà. Veuillez en saisir un nouveau.</li>";
-  } else {
-    $nom = $_POST["nom"];
-    $prenom = $_POST["prenom"];
-    $date_naissance = $_POST["date_naissance"];
-    $filiere = $_POST["filiere"];
-    $statut = 1;
-    $sql = "INSERT INTO `etudiant`  (nom, prenom, apogee,date_naissance,filiere,statut) VALUES (:nom, :prenom, :apogee,:date_naissance,:filiere,:statut)";
-    $query = $db_con->prepare($sql);
+        <div>
+          <?php
+          if (isset($_POST["submit"])) {
+            $apogee = $_POST["apogee"];
+            //verification unique code
+            $stmt = $db_con->prepare("SELECT * FROM etudiant WHERE apogee = :apogee");
+            $stmt->bindParam(':apogee', $apogee);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+              echo "<li class='alert alert-danger'>Le code Apogee existe déjà. Veuillez en saisir un nouveau.</li>";
+            } else {
+              $nom = $_POST["nom"];
+              $prenom = $_POST["prenom"];
+              $date_naissance = $_POST["date_naissance"];
+              $filiere = $_POST["filiere"];
+              $statut = 1;
+              $sql = "INSERT INTO `etudiant`  (nom, prenom, apogee,date_naissance,filiere,statut) VALUES (:nom, :prenom, :apogee,:date_naissance,:filiere,:statut)";
+              $query = $db_con->prepare($sql);
 
-    $query->bindParam(':nom', $nom, PDO::PARAM_STR);
-    $query->bindParam(':prenom', $prenom, PDO::PARAM_STR);
-    $query->bindParam(':date_naissance', $date_naissance, PDO::PARAM_STR);
-    $query->bindParam(':apogee', $apogee, PDO::PARAM_STR);
-    $query->bindParam(':filiere', $filiere, PDO::PARAM_STR);
-    $query->bindParam(':statut', $statut, PDO::PARAM_STR);
-    $query->execute();
-    header("Location: etudiants.php");
-  }
-}
-?>
-       </div>
+              $query->bindParam(':nom', $nom, PDO::PARAM_STR);
+              $query->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+              $query->bindParam(':date_naissance', $date_naissance, PDO::PARAM_STR);
+              $query->bindParam(':apogee', $apogee, PDO::PARAM_STR);
+              $query->bindParam(':filiere', $filiere, PDO::PARAM_STR);
+              $query->bindParam(':statut', $statut, PDO::PARAM_STR);
+              $query->execute();
+              header("Location: etudiants.php");
+            }
+          }
+          ?>
+        </div>
         <hr>
         <div class="row">
 

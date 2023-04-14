@@ -12,28 +12,6 @@ if (@$_SESSION['connect'] == true) {
 
 
 
-if (isset($_POST['login'])) {
-  if ($_POST['date_naissance'] != null || $_POST['apogee'] != "") {
-    $date_naissance = $_POST['date_naissance'];
-    $apogee = $_POST['apogee'];
-    $sql = "SELECT * FROM `etudiant` WHERE `date_naissance`=? AND `apogee`=? ";
-    $query = $db_con->prepare($sql);
-    $query->execute(array($date_naissance, $apogee));
-    $row = $query->rowCount();
-    $fetch = $query->fetch();
-    if ($row > 0) {
-      $_SESSION['user'] = $fetch;
-      $_SESSION['connect'] = true;
-
-      header("location: myspace.php");
-    } else {
-      echo "
-      <script>alert('Invalid username or password')</script>
-      <script>window.location = 'index.php'</script>
-      ";
-    }
-  }
-}
 
 
 
@@ -111,18 +89,43 @@ if (isset($_POST['login'])) {
         <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
           <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
           <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+            <div>
+              <?php 
+              if (isset($_POST['login'])) {
+                if ($_POST['date_naissance'] != null || $_POST['apogee'] != "") {
+                  $date_naissance = $_POST['date_naissance'];
+                  $apogee = $_POST['apogee'];
+                  $sql = "SELECT * FROM `etudiant` WHERE `date_naissance`=? AND `apogee`=? ";
+                  $query = $db_con->prepare($sql);
+                  $query->execute(array($date_naissance, $apogee));
+                  $row = $query->rowCount();
+                  $fetch = $query->fetch();
+                  if ($row > 0) {
+                    $_SESSION['user'] = $fetch;
+                    $_SESSION['connect'] = true;
+              
+                    header("location: myspace.php");
+                  } else {
+                    echo "<li class='alert alert-danger'>Date Naissance ou  Code Apogee sont incorectes !!.</li>";
 
+               
+                  }
+                }
+              }
+              
+              ?>
+            </div>
           <div class="card bg-glass">
             <div class="card-body px-4 py-5 px-md-5">
 
               <form method="post">
 
                 <div class="form-outline mb-4">
-                  <input type="date" id="form3Example3" class="form-control" name="date_naissance" />
+                  <input required type="date" id="form3Example3" class="form-control" name="date_naissance" />
                   <label class="form-label" for="form3Example3">Date Naissance</label>
                 </div>
                 <div class="form-outline mb-4">
-                  <input type="text" id="form3Example3" class="form-control" name="apogee" />
+                  <input required type="text" id="form3Example3" class="form-control" name="apogee" />
                   <label class="form-label" for="form3Example3">Code Apogee</label>
                 </div>
                 <!-- Submit button -->

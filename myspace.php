@@ -35,11 +35,11 @@ $row = $query->rowCount();
 
 <body class="container">
   <div class="container">
-   <div>
-   <form style="text-align: right; margin: 10px;" action="deconnexion.php" method="post">
-      <button style="background-color: #F44336;color: white;padding: 10px;border: none;cursor: pointer;" type="submit">Deconnexion</button>
-    </form>
-   </div>
+    <div>
+      <form style="text-align: right; margin: 10px;" action="deconnexion.php" method="post">
+        <button style="background-color: #F44336;color: white;padding: 10px;border: none;cursor: pointer;" type="submit">Deconnexion</button>
+      </form>
+    </div>
     <?php
 
     echo "<h1>Bonjour " . $_SESSION['user']["nom"]  . " " .  $_SESSION['user']["prenom"]  .  "</h1>";
@@ -70,8 +70,9 @@ $row = $query->rowCount();
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">les modules demandées</th>
-                <th scope="col">La date du demande</th>
+                <th scope="col">Date demande</th>
                 <th scope="col">Reponses</th>
+                <th scope="col">Mes documents</th>
                 <th scope="col">Control</th>
               </tr>
             </thead>
@@ -85,10 +86,29 @@ $row = $query->rowCount();
                   <td><?php echo  $demande["modules_demandees"] ?></td>
                   <td><?php echo $demande["date_demande"] ?></td>
                   <td style="color: #ff5198;"><?php echo isset($demande["reponse_admin"]) ? $demande["reponse_admin"] : "--Acune reponse--";  ?></td>
-
+                  <td>
+                    <div class="" style="margin: 5px 0;display: flex;justify-content: space-between;width: 150px;">
+                      <a href="files_releve_carte/<?php echo $demande["file_releve"]; ?>" download>
+                        <div class="	glyphicon glyphicon-download-alt"></div>
+                        Relevé de notes
+                      </a>
+                      <a href="" class="text-danger ">
+                        <div class="glyphicon glyphicon-trash"></div>
+                      </a>
+                    </div>
+                    <div class="" style="margin: 5px 0;display: flex;justify-content: space-between;width: 150px;">
+                      <a href="files_releve_carte/<?php echo $demande["file_carte"]; ?>" download>
+                        <div class="	glyphicon glyphicon-download-alt"></div>
+                        Carte étudiant
+                      </a>
+                      <a href="" class="text-danger ">
+                        <div class="glyphicon glyphicon-trash"></div>
+                      </a>
+                    </div>
+                  </td>
                   <td>
                     <a href='#' class='btn btn-sm btn-warning'>Modifier Les modules</a>
-                    <a href='#' class='btn btn-sm btn-warning'>Modifier Les documents</a>
+
                     <form method="post">
                       <input type="hidden" name="id_demande" value="<?php echo $demande["id_demande"] ?>">
                       <input type="submit" name="delete_demande" class='btn btn-sm btn-danger' value="Supprimer La demande" />
@@ -118,8 +138,8 @@ $row = $query->rowCount();
           </table>
 
 
-          
-      
+
+
         <?php } else { ?>
           <h3>Veuillez sélectionner au maximum 4 modules. Merci</h3>
           <h3>Demande de modules libres <span style="color: red;">(4 modules au maximum)</span></h3>

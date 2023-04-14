@@ -1,11 +1,11 @@
 <?php
 session_start();
-
-// if (!$_SESSION['connect_admin'] || !$_SESSION['connect_agent']) {
-//   header("Location: login.php");
-// }
-
 include "connexion.php";
+
+if (!$_SESSION['auth'] ) {
+  header("Location: login.php");
+}
+
 $sql = "SELECT * FROM `demande` ";
 $query = $db_con->prepare($sql);
 $query->execute();
@@ -100,7 +100,7 @@ if (isset($_POST["eregistrer_reponse"])) {
                     <th scope="col">Les modules demandées</th>
                     <th scope="col">Documents</th>
 
-                    <th scope="col">Control</th>
+                    <th scope="col">Reponse</th>
                   </tr>
                 </thead>
                 <tbody>

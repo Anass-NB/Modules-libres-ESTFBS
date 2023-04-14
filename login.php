@@ -49,10 +49,12 @@ if (@$_SESSION['connect']) {
             switch ($fetch["profil"]) {
               case 1:
                 $_SESSION['connect_admin'] = true;
+                $_SESSION['auth'] = true;
                 break;
-
-              case 0:
-                $_SESSION['connect_agent'] = true;
+                
+                case 0:
+                  $_SESSION['auth'] = true;
+                  $_SESSION['connect_agent'] = true;
                 break;
             }
             //EVENT USER
@@ -65,7 +67,9 @@ if (@$_SESSION['connect']) {
 
             // $query->execute();
 
-            // header("location: gestion.php");
+            header("location: gestion.php");
+            // echo "<script>window.location = 'gestion.php'</script>";
+
           } else {
             echo "<li class='alert alert-danger'>Invalid username or password</li>";
           }

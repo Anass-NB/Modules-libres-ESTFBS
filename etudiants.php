@@ -1,10 +1,10 @@
 <?php
 session_start();
-?>
-
-
-<?php
 include "connexion.php";
+if (!$_SESSION['auth'] ) {
+  header("Location: login.php");
+}
+
 $sql = "SELECT * FROM `etudiant` ";
 $query = $db_con->prepare($sql);
 $query->execute();

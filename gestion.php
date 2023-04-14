@@ -1,10 +1,13 @@
 <?php
 session_start();
+include "connexion.php";
 // if (!$_SESSION['connect_admin'] || !$_SESSION['connect_agent'] ) {
 //   header("Location: login.php");
 // }
+if (!$_SESSION['connect_admin']) {
+  header("Location: etudiants.php");
+}
 
-include "connexion.php";
 // if (!$_SESSION['connect_admin']) {
 //   header('Location: login.php');
 // }
