@@ -87,24 +87,49 @@ $row = $query->rowCount();
                   <td><?php echo $demande["date_demande"] ?></td>
                   <td style="color: #ff5198;"><?php echo isset($demande["reponse_admin"]) ? $demande["reponse_admin"] : "--Acune reponse--";  ?></td>
                   <td>
-                    <div class="" style="margin: 5px 0;display: flex;justify-content: space-between;width: 150px;">
-                      <a href="files_releve_carte/<?php echo $demande["file_releve"]; ?>" download>
-                        <div class="	glyphicon glyphicon-download-alt"></div>
-                        Relevé de notes
-                      </a>
-                      <a href="" class="text-danger ">
-                        <div class="glyphicon glyphicon-trash"></div>
-                      </a>
-                    </div>
-                    <div class="" style="margin: 5px 0;display: flex;justify-content: space-between;width: 150px;">
-                      <a href="files_releve_carte/<?php echo $demande["file_carte"]; ?>" download>
-                        <div class="	glyphicon glyphicon-download-alt"></div>
-                        Carte étudiant
-                      </a>
-                      <a href="" class="text-danger ">
-                        <div class="glyphicon glyphicon-trash"></div>
-                      </a>
-                    </div>
+                    <?php if (isset($demande["file_releve"])) {
+                    ?>
+                      <div class="" style="margin: 5px 0;display: flex;justify-content: space-between;width: 150px;">
+                        <a href="files_releve_carte/<?php echo $demande["file_releve"]; ?>" download>
+                          <div class="	glyphicon glyphicon-download-alt"></div>
+                          Relevé de notes
+                        </a>
+                        <a href="delete_document.php?del=releve" class="text-danger ">
+                          <div class="glyphicon glyphicon-trash"></div>
+                        </a>
+                      <?php } else { ?>
+                        <div>
+                          <form action="update_documents.php" method="post"  enctype="multipart/form-data">
+                            <label for="releve">(Acune releve)</label>
+                            <input type="file" name="releve_note" accept=".pdf">
+                            <input type="submit" value="save" name="save_releve">
+                          </form>
+                        </div>
+                      <?php } ?>
+                  
+
+                      </div>
+                      <div class="" style="margin: 5px 0;display: flex;justify-content: space-between;width: 150px;">
+                        <?php if (isset($demande["file_carte"])) {
+                        ?>
+                          <a href="files_releve_carte/<?php echo $demande["file_carte"]; ?>" download>
+                            <div class="	glyphicon glyphicon-download-alt"></div>
+                            Carte étudiant
+                          </a>
+                          <a href="delete_document.php?del=carte" class="text-danger ">
+                            <div class="glyphicon glyphicon-trash"></div>
+                          </a>
+                        <?php } else { ?>
+                          <div>
+                            <form action="update_documents.php" method="post"  enctype="multipart/form-data">
+                              <label for="carte">(Acune carte etudiant )</label>
+                              <input type="file" name="carte_etudiant" id="carte"  accept=".jpg,.jpeg,.png">
+                              <input type="submit" name="save_carte" value="save">
+                            </form>
+                          </div>
+                        <?php } ?>
+
+                      </div>
                   </td>
                   <td>
                     <a href='#' class='btn btn-sm btn-warning'>Modifier Les modules</a>
