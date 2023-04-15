@@ -41,6 +41,13 @@ $row = $query->rowCount();
       </form>
     </div>
     <?php
+          $error = isset($_GET['error']) ? $_GET['error'] : '';
+
+          if (!empty($error)) {
+            echo "<li style='background-color: #F48336;color: white;padding: 10px;border: none;width:fit-content'>" . $error . "</li>";
+          }
+          ?>
+    <?php
 
     echo "<h1>Bonjour " . $_SESSION['user']["nom"]  . " " .  $_SESSION['user']["prenom"]  .  "</h1>";
 
@@ -83,7 +90,12 @@ $row = $query->rowCount();
               ?>
                 <tr>
                   <td>-</td>
-                  <td><?php echo  $demande["modules_demandees"] ?></td>
+                  <td><?php echo  $demande["modules_demandees"] ?>
+                    <div>
+                      <a href='edit_demande.php'>Modifier Les modules <span class="glyphicon glyphicon-edit"></span></a>
+                    </div>
+
+                  </td>
                   <td><?php echo $demande["date_demande"] ?></td>
                   <td style="color: #ff5198;"><?php echo isset($demande["reponse_admin"]) ? $demande["reponse_admin"] : "--Acune reponse--";  ?></td>
                   <td>
@@ -99,14 +111,14 @@ $row = $query->rowCount();
                         </a>
                       <?php } else { ?>
                         <div>
-                          <form action="update_documents.php" method="post"  enctype="multipart/form-data">
+                          <form action="update_documents.php" method="post" enctype="multipart/form-data">
                             <label for="releve">(Acune releve)</label>
                             <input type="file" name="releve_note" accept=".pdf">
                             <input type="submit" value="save" name="save_releve">
                           </form>
                         </div>
                       <?php } ?>
-                  
+
 
                       </div>
                       <div class="" style="margin: 5px 0;display: flex;justify-content: space-between;width: 150px;">
@@ -121,9 +133,9 @@ $row = $query->rowCount();
                           </a>
                         <?php } else { ?>
                           <div>
-                            <form action="update_documents.php" method="post"  enctype="multipart/form-data">
+                            <form action="update_documents.php" method="post" enctype="multipart/form-data">
                               <label for="carte">(Acune carte etudiant )</label>
-                              <input type="file" name="carte_etudiant" id="carte"  accept=".jpg,.jpeg,.png">
+                              <input type="file" name="carte_etudiant" id="carte" accept=".jpg,.jpeg,.png">
                               <input type="submit" name="save_carte" value="save">
                             </form>
                           </div>
@@ -132,7 +144,6 @@ $row = $query->rowCount();
                       </div>
                   </td>
                   <td>
-                    <a href='#' class='btn btn-sm btn-warning'>Modifier Les modules</a>
 
                     <form method="post">
                       <input type="hidden" name="id_demande" value="<?php echo $demande["id_demande"] ?>">
@@ -166,7 +177,9 @@ $row = $query->rowCount();
 
 
         <?php } else { ?>
+        
           <h3>Veuillez sélectionner au maximum 4 modules. Merci</h3>
+          
           <h3>Demande de modules libres <span style="color: red;">(4 modules au maximum)</span></h3>
       </div>
 
