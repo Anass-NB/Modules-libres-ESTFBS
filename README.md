@@ -21,10 +21,10 @@ Pour l’Agent :
 -  Faire des recherches sur les étudiants (par num apogee, et par filière) 
 -  Répondre aux demandes des étudiants. 
 
-## Espace Etudiant: 
+## Authentification  Etudiant: 
 ![image](https://github.com/Anass-NB/mini-projet-php/assets/110456240/c1762ecd-09de-4aed-8edc-147b02001122)
 
-## Espace Admin: 
+## Authentification Admin: 
 
 ![image](https://github.com/Anass-NB/mini-projet-php/assets/110456240/ff692f91-63b1-4aca-8204-c110cb5af1e6)
 ![image](https://github.com/Anass-NB/mini-projet-php/assets/110456240/697c9151-fe94-473e-8156-6f5ab0396968)
