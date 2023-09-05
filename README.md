@@ -2,6 +2,25 @@
 Application on the web that allows students to connect to a university's workplace to submit a request for modules libres.
 # About
 Application web qui permet aux étudiants d’un établissement universitaire de se connecter à son espace puis de faire une demande de modules libres.
+Pour le Chef de scolarité :  
+- Consultation, Ajout, modification, suppression du contenu de la table Etudiant. 
+- Consultation des demandes des étudiants (avec possibilité de voir les fichiers 
+relevés de notes et carte étudiants de chaque étudiant). 
+- Faire des recherches sur les étudiants (par num apogee, et par filière) 
+- Répondre aux demandes des étudiants. 
+- Avoir une vision globale sur les demandes (des chiffres sous forme de tableau) 
++ Nombre total des étudiants 
++ Nombre total des demandes 
++ Nombre des demandes par filière 
++ Nombre de demandes sans réponse 
+-  Clôturer l’opération des demandes de modules libres 
+-  Ajout, modification, suppression d’un utilisateur 
+ 
+Pour l’Agent : 
+- Consultation des demandes des étudiants. 
+-  Faire des recherches sur les étudiants (par num apogee, et par filière) 
+-  Répondre aux demandes des étudiants. 
+
 ## Espace Etudiant: 
 ![image](https://github.com/Anass-NB/mini-projet-php/assets/110456240/c1762ecd-09de-4aed-8edc-147b02001122)
 
