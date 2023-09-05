@@ -27,6 +27,7 @@ Pour l’Agent :
 ## Authentification Admin: 
 
 ![image](https://github.com/Anass-NB/mini-projet-php/assets/110456240/ff692f91-63b1-4aca-8204-c110cb5af1e6)
+<hr />
 ![image](https://github.com/Anass-NB/mini-projet-php/assets/110456240/697c9151-fe94-473e-8156-6f5ab0396968)
 ![image](https://github.com/Anass-NB/mini-projet-php/assets/110456240/357d4516-cd31-4e28-a325-8df7e74c0d83)
 ![image](https://github.com/Anass-NB/mini-projet-php/assets/110456240/ac1beee0-05fd-4e3b-bc8b-9f66aabbb32c)
@@ -43,4 +44,4 @@ Pour l’Agent :
 ![image](https://github.com/Anass-NB/mini-projet-php/assets/110456240/419c1efa-4bbc-42d4-856f-018bd597354f)
 ![image](https://github.com/Anass-NB/mini-projet-php/assets/110456240/db6c1649-f04b-4955-8b82-d49ee2e545ef)
 
-## Espace Admin: 
+
